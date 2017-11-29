@@ -22,7 +22,7 @@ module.exports = {
     return chalk.green(display)
   },
   getPrice (price, unit, bolded) {
-    const display = `${unit || '$'}${price}`
+    const display = `${price} ${unit || 'USD'}`
 
     if (bolded === false) {
       return display
