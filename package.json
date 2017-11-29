@@ -8,6 +8,7 @@
     "js-yaml": "^3.10.0",
     "log-update": "^2.3.0",
     "node-fetch": "^1.7.3",
+    "numeral": "^2.0.6",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.0.17"
