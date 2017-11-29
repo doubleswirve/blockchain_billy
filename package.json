@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "chalk": "^2.3.0",
+    "log-update": "^2.3.0",
     "node-fetch": "^1.7.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
