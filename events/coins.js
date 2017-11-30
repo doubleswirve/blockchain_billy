@@ -6,7 +6,7 @@ class Coins extends EventEmitter {
     const json = await coins.getCoins()
     this.emit('data', json)
     // TODO: Maybe make delay an env var/increase...
-    setTimeout(() => this.poll(), 20e3)
+    setTimeout(() => this.poll(), 30e3)
   }
 }
 
