@@ -3,8 +3,12 @@ const coins = require('../models/coins')
 
 class Coins extends EventEmitter {
   async poll () {
-    const json = await coins.getCoins()
-    this.emit('data', json)
+    try {
+      const json = await coins.getCoins()
+      this.emit('data', json)
+    } catch (error) {
+      this.emit('error', error)
+    }
     // TODO: Maybe make delay an env var/increase...
     setTimeout(() => this.poll(), 30e3)
   }
