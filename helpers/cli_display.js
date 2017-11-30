@@ -1,4 +1,5 @@
 const chalk = require('chalk')
+const numeral = require('numeral')
 
 module.exports = {
   getFullName (name, symbol) {
@@ -9,7 +10,7 @@ module.exports = {
     return `${now - timestamp}s ago`
   },
   getPercentChange (percentChange) {
-    const display = `${percentChange}%`
+    const display = `${numeral(percentChange).format('0,0.00')}%`
 
     if (percentChange === 0) {
       return display
@@ -21,8 +22,9 @@ module.exports = {
 
     return chalk.green(display)
   },
-  getPrice (price, unit, bolded) {
-    const display = `${price} ${unit || 'USD'}`
+  getPrice (price, whole, unit, bolded) {
+    const formatter = whole === true ? '0,0' : '0,0.00'
+    const display = `${unit || '$'}${numeral(price).format(formatter)}`
 
     if (bolded === false) {
       return display
