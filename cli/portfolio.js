@@ -6,17 +6,9 @@ const util = require('util')
 const yaml = require('js-yaml')
 const Coins = require('../events/coins')
 const cliDisplay = require('../helpers/cli_display')
+const coinData = require('../helpers/coins/data')
 
 const readFileAsync = util.promisify(fs.readFile)
-
-function indexData (data, key) {
-  return data.reduce((index, coin) => {
-    const value = coin[key]
-    return Object.assign({}, index, {
-      [value]: coin
-    })
-  }, {})
-}
 
 async function run () {
   const filename = path.join(__dirname, '../portfolios/sample.yaml')
@@ -25,10 +17,11 @@ async function run () {
   const portfolio = yaml.safeLoad(sampleYaml)
 
   coins.on('data', (json) => {
-    const index = indexData(json, 'symbol')
+    const index = coinData.index(json)
 
-    const data = portfolio.holdings.map(({symbol, total}) => {
-      const coin = index[symbol]
+    const data = portfolio.holdings.map(({id, total}) => {
+      const coin = index[id]
+
       return {
         name: cliDisplay.getFullName(coin.name, coin.symbol),
         holding: cliDisplay.getPrice(coin.price_usd * total),
