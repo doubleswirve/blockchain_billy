@@ -32,7 +32,13 @@ coins.on('data', (json) => {
       'market_cap_usd',
       'percent_change_24h',
       'last_updated'
-    ]
+    ],
+    config: {
+      price_usd: { align: 'right' },
+      market_cap_usd: { align: 'right' },
+      percent_change_24h: { align: 'right' },
+      last_updated: { align: 'right' }
+    }
   })
 
   logUpdate(string)
