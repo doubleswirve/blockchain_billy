@@ -5,7 +5,7 @@ const path = require('path')
 const util = require('util')
 const yaml = require('js-yaml')
 const Coins = require('../events/coins')
-const cliDisplay = require('../helpers/cli_display')
+const cliDisplay = require('../helpers/coins/cli')
 const coinData = require('../helpers/coins/data')
 
 const readFileAsync = util.promisify(fs.readFile)
