@@ -1,6 +1,6 @@
 const columnify = require('columnify')
 const logUpdate = require('log-update')
-const Coins = require('../events/coins')
+const Coins = require('../events/coin_data')
 const cliDisplay = require('../helpers/coins/cli')
 
 const coins = new Coins()
