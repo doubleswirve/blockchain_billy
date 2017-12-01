@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "blessed": "^0.1.81",
     "chalk": "^2.3.0",
     "columnify": "^1.5.4",
     "js-yaml": "^3.10.0",
