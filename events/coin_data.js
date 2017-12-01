@@ -1,7 +1,7 @@
 const EventEmitter = require('events')
 const coins = require('../models/coins')
 
-class Coins extends EventEmitter {
+class CoinData extends EventEmitter {
   async poll () {
     try {
       const json = await coins.getCoins()
@@ -14,4 +14,4 @@ class Coins extends EventEmitter {
   }
 }
 
-module.exports = Coins
+module.exports = CoinData

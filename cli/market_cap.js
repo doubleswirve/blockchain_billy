@@ -1,11 +1,11 @@
 const columnify = require('columnify')
 const logUpdate = require('log-update')
-const Coins = require('../events/coin_data')
+const CoinData = require('../events/coin_data')
 const cliDisplay = require('../helpers/coins/cli')
 
-const coins = new Coins()
+const coinData = new CoinData()
 
-coins.on('data', (json) => {
+coinData.on('data', (json) => {
   const data = json.map((coin) => {
     const {
       name,
@@ -46,4 +46,4 @@ coins.on('data', (json) => {
 
 logUpdate('Loading market cap...')
 
-coins.poll()
+coinData.poll()
