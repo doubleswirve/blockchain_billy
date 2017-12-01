@@ -5,9 +5,12 @@ const cliDisplay = require('../helpers/coins/cli')
 
 const screen = blessed.screen()
 const box = blessed.box({
+  alwaysScroll: true,
   content: 'Loading market cap...',
-  // TODO: This isn't working, at least in iTerm...
-  scrollable: true
+  keys: true,
+  mouse: true,
+  scrollable: true,
+  vi: true
 })
 
 const coinData = new CoinData()
