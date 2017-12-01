@@ -1,23 +1,35 @@
+const blessed = require('blessed')
 const columnify = require('columnify')
 const fs = require('fs')
-const logUpdate = require('log-update')
 const path = require('path')
 const util = require('util')
 const yaml = require('js-yaml')
-const Coins = require('../events/coins')
+const CoinData = require('../events/coin_data')
 const cliDisplay = require('../helpers/coins/cli')
-const coinData = require('../helpers/coins/data')
+const coinDataHelper = require('../helpers/coins/data')
 
 const readFileAsync = util.promisify(fs.readFile)
+
+const screen = blessed.screen()
+const box = blessed.box({
+  alwaysScroll: true,
+  content: 'Loading portfolio...',
+  keys: true,
+  mouse: true,
+  scrollable: true,
+  vi: true
+})
+
+screen.append(box)
 
 async function run () {
   const filename = path.join(__dirname, '../portfolios/sample.yaml')
   const sampleYaml = await readFileAsync(filename)
-  const coins = new Coins()
+  const coinData = new CoinData()
   const portfolio = yaml.safeLoad(sampleYaml)
 
-  coins.on('data', (json) => {
-    const index = coinData.index(json)
+  coinData.on('data', (coins) => {
+    const index = coinDataHelper.index(coins)
 
     const data = portfolio.holdings.map(({id, total}) => {
       const coin = index[id]
@@ -37,12 +49,17 @@ async function run () {
       ]
     })
 
-    logUpdate(string)
+    box.setContent(`Last request: ${new Date()}\n\n${string}`)
+    screen.render()
   })
 
-  coins.poll()
+  coinData.poll()
 }
 
-logUpdate('Loading portfolio...')
+screen.key([ 'C-c' ], (ch, key) => {
+  return process.exit(0)
+})
+
+screen.render()
 
 run()

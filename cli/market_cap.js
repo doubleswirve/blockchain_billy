@@ -1,11 +1,23 @@
+const blessed = require('blessed')
 const columnify = require('columnify')
-const logUpdate = require('log-update')
-const Coins = require('../events/coins')
+const CoinData = require('../events/coin_data')
 const cliDisplay = require('../helpers/coins/cli')
 
-const coins = new Coins()
+const screen = blessed.screen()
+const box = blessed.box({
+  alwaysScroll: true,
+  content: 'Loading market cap...',
+  keys: true,
+  mouse: true,
+  scrollable: true,
+  vi: true
+})
 
-coins.on('data', (json) => {
+const coinData = new CoinData()
+
+screen.append(box)
+
+coinData.on('data', (json) => {
   const data = json.map((coin) => {
     const {
       name,
@@ -41,9 +53,14 @@ coins.on('data', (json) => {
     }
   })
 
-  logUpdate(string)
+  box.setContent(`Last request: ${new Date()}\n\n${string}`)
+  screen.render()
 })
 
-logUpdate('Loading market cap...')
+screen.key([ 'C-c' ], (ch, key) => {
+  return process.exit(0)
+})
 
-coins.poll()
+screen.render()
+
+coinData.poll()
