@@ -1,9 +1,18 @@
+const blessed = require('blessed')
 const columnify = require('columnify')
-const logUpdate = require('log-update')
 const CoinData = require('../events/coin_data')
 const cliDisplay = require('../helpers/coins/cli')
 
+const screen = blessed.screen()
+const box = blessed.box({
+  content: 'Loading market cap...',
+  // TODO: This isn't working, at least in iTerm...
+  scrollable: true
+})
+
 const coinData = new CoinData()
+
+screen.append(box)
 
 coinData.on('data', (json) => {
   const data = json.map((coin) => {
@@ -41,9 +50,10 @@ coinData.on('data', (json) => {
     }
   })
 
-  logUpdate(string)
+  box.setContent(`Last request: ${new Date()}\n\n${string}`)
+  screen.render()
 })
 
-logUpdate('Loading market cap...')
+screen.render()
 
 coinData.poll()
