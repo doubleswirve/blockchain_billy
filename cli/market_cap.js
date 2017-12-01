@@ -57,6 +57,10 @@ coinData.on('data', (json) => {
   screen.render()
 })
 
+screen.key([ 'C-c' ], (ch, key) => {
+  return process.exit(0)
+})
+
 screen.render()
 
 coinData.poll()
