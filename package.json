@@ -6,6 +6,7 @@
     "blessed": "^0.1.81",
     "chalk": "^2.3.0",
     "columnify": "^1.5.4",
+    "glob": "^7.1.2",
     "js-yaml": "^3.10.0",
     "node-fetch": "^1.7.3",
     "numeral": "^2.0.6",
