@@ -5,6 +5,7 @@ const util = require('util')
 const mkdir = util.promisify(fs.mkdir)
 const readFile = util.promisify(fs.readFile)
 const stat = util.promisify(fs.stat)
+const writeFile = util.promisify(fs.writeFile)
 
 function globPromisified (pattern, options) {
   return new Promise((resolve, reject) => {
@@ -36,5 +37,6 @@ module.exports = {
   isDirectory,
   mkdir,
   readFile,
-  readFiles
+  readFiles,
+  writeFile
 }
