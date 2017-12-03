@@ -2,6 +2,7 @@ const glob = require('glob')
 const fs = require('fs')
 const util = require('util')
 
+const mkdir = util.promisify(fs.mkdir)
 const readFile = util.promisify(fs.readFile)
 
 function globPromisified (pattern, options) {
@@ -26,6 +27,7 @@ function readFiles (pathsAndOptions) {
 
 module.exports = {
   glob: globPromisified,
+  mkdir,
   readFile,
   readFiles
 }
