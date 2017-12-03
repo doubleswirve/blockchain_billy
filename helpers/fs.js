@@ -7,6 +7,14 @@ const readFile = util.promisify(fs.readFile)
 const stat = util.promisify(fs.stat)
 const writeFile = util.promisify(fs.writeFile)
 
+async function createDirectoryIfDoesNotExist (path, mode) {
+  const directoryExists = await isDirectory(path)
+  if (directoryExists) {
+    return
+  }
+  return mkdir(path, mode)
+}
+
 function globPromisified (pattern, options) {
   return new Promise((resolve, reject) => {
     glob(pattern, options, (error, files) => {
@@ -20,8 +28,12 @@ function globPromisified (pattern, options) {
 }
 
 async function isDirectory (path) {
-  const stats = await stat(path)
-  return stats.isDirectory()
+  try {
+    const stats = await stat(path)
+    return stats.isDirectory()
+  } catch (error) {
+    return false
+  }
 }
 
 function readFiles (pathsAndOptions) {
@@ -33,6 +45,7 @@ function readFiles (pathsAndOptions) {
 }
 
 module.exports = {
+  createDirectoryIfDoesNotExist,
   glob: globPromisified,
   isDirectory,
   mkdir,
