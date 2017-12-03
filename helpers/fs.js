@@ -1,7 +1,20 @@
+const glob = require('glob')
 const fs = require('fs')
 const util = require('util')
 
 const readFile = util.promisify(fs.readFile)
+
+function globPromisified (pattern, options) {
+  return new Promise((resolve, reject) => {
+    glob(pattern, options, (error, files) => {
+      if (error === null) {
+        resolve(files)
+        return
+      }
+      reject(error)
+    })
+  })
+}
 
 function readFiles (pathsAndOptions) {
   return Promise.all(
@@ -12,6 +25,7 @@ function readFiles (pathsAndOptions) {
 }
 
 module.exports = {
+  glob: globPromisified,
   readFile,
   readFiles
 }
