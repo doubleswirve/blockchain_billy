@@ -7,7 +7,7 @@ const glob = require('../helpers/glob')
 function getLocalPortfoliosDirectory () {
   // TODO: Make constant for dir name
   // TODO: Maybe allow override via env var
-  return path.join(os.homedir(), '.blockchain_billy')
+  return path.join(os.homedir(), '.blockchain_billy', 'portfolios')
 }
 
 function getLocalPortfolioFilePath (portfolioId) {
