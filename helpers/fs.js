@@ -4,6 +4,7 @@ const util = require('util')
 
 const mkdir = util.promisify(fs.mkdir)
 const readFile = util.promisify(fs.readFile)
+const stat = util.promisify(fs.stat)
 
 function globPromisified (pattern, options) {
   return new Promise((resolve, reject) => {
@@ -17,6 +18,11 @@ function globPromisified (pattern, options) {
   })
 }
 
+async function isDirectory (path) {
+  const stats = await stat(path)
+  return stats.isDirectory()
+}
+
 function readFiles (pathsAndOptions) {
   return Promise.all(
     pathsAndOptions.map(({ path, options }) => {
@@ -27,6 +33,7 @@ function readFiles (pathsAndOptions) {
 
 module.exports = {
   glob: globPromisified,
+  isDirectory,
   mkdir,
   readFile,
   readFiles
