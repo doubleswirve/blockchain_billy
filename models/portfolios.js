@@ -4,26 +4,47 @@ const yaml = require('js-yaml')
 const fsHelpers = require('../helpers/fs')
 const glob = require('../helpers/glob')
 
-async function getLocalPortfoliosFilePaths () {
+function getLocalPortfoliosDirectory () {
   // TODO: Make constant for dir name
-  const localDirectory = path.join(os.homedir(), '.blockchain_billy')
-  const filenames = await glob('*.yaml', { cwd: localDirectory })
-  return filenames.map((filename) => {
-    return { path: path.join(localDirectory, filename) }
+  // TODO: Maybe allow override via env var
+  return path.join(os.homedir(), '.blockchain_billy')
+}
+
+function getLocalPortfolioFilePath (portfolioId) {
+  return path.join(getLocalPortfoliosDirectory(), `${portfolioId}.yaml`)
+}
+
+async function getLocalPortfoliosFilePaths () {
+  const paths = await glob('*.yaml', {
+    absolute: true,
+    cwd: getLocalPortfoliosDirectory()
   })
+  return paths.map((path) => {
+    return { path }
+  })
+}
+
+async function getLocalPortfolio (portfolioId) {
+  const portfolioFilePath = getLocalPortfolioFilePath(portfolioId)
+  const portfolio = await fsHelpers.readFile(portfolioFilePath)
+  return parsePortfolio(portfolio)
 }
 
 async function getLocalPortfolios () {
   const portfoliosFilePaths = await getLocalPortfoliosFilePaths()
   const portfolios = await fsHelpers.readFiles(portfoliosFilePaths)
-
   return parsePortfolios(portfolios)
 }
 
 function parsePortfolios (portfolios) {
-  return portfolios.map(yaml.safeLoad)
+  return portfolios.map(parsePortfolio)
+}
+
+function parsePortfolio (portfolio) {
+  return yaml.safeLoad(portfolio)
 }
 
 module.exports = {
+  getLocalPortfolio,
   getLocalPortfolios
 }
