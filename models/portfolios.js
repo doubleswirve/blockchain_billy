@@ -26,20 +26,20 @@ async function getLocalPortfoliosFilePaths () {
 async function getLocalPortfolio (portfolioId) {
   const portfolioFilePath = getLocalPortfolioFilePath(portfolioId)
   const portfolio = await fsHelpers.readFile(portfolioFilePath)
-  return parsePortfolio(portfolio)
+  return parseLocalPortfolio(portfolio)
 }
 
 async function getLocalPortfolios () {
   const portfoliosFilePaths = await getLocalPortfoliosFilePaths()
   const portfolios = await fsHelpers.readFiles(portfoliosFilePaths)
-  return parsePortfolios(portfolios)
+  return parseLocalPortfolios(portfolios)
 }
 
-function parsePortfolios (portfolios) {
-  return portfolios.map(parsePortfolio)
+function parseLocalPortfolios (portfolios) {
+  return portfolios.map(parseLocalPortfolio)
 }
 
-function parsePortfolio (portfolio) {
+function parseLocalPortfolio (portfolio) {
   return yaml.safeLoad(portfolio)
 }
 
