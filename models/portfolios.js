@@ -2,7 +2,6 @@ const os = require('os')
 const path = require('path')
 const yaml = require('js-yaml')
 const fsHelpers = require('../helpers/fs')
-const glob = require('../helpers/glob')
 
 function getLocalPortfoliosDirectory () {
   // TODO: Make constant for dir name
@@ -15,7 +14,7 @@ function getLocalPortfolioFilePath (portfolioId) {
 }
 
 async function getLocalPortfoliosFilePaths () {
-  const paths = await glob('*.yaml', {
+  const paths = await fsHelpers.glob('*.yaml', {
     absolute: true,
     cwd: getLocalPortfoliosDirectory()
   })
